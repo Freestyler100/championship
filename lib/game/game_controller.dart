@@ -22,7 +22,7 @@ class _GameControllerState extends State<GameController> {
   Widget build(BuildContext context) {
     //
     // LOGIC
-    //
+
     return GameView();
   }
 }
