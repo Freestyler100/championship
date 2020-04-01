@@ -23,7 +23,6 @@ class _GameControllerState extends State<GameController> {
     //
     // LOGIC
     //
-
     return GameView();
   }
 }
