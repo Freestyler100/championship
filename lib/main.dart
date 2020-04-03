@@ -1,22 +1,50 @@
-import 'package:champion_chip/maincontroller.dart';
+import 'package:champion_chip/components/inherited_player_list.dart';
+import 'package:champion_chip/constants.dart';
+import 'package:champion_chip/states/game/game_view.dart';
+import 'package:champion_chip/states/scoreboard/scoreboard_view.dart';
+import 'package:champion_chip/states/select_players/select_players_view.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(ChampionChipGame());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class ChampionChipGame extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: App(),
-    );
-  }
+  _ChampionChipGameState createState() => _ChampionChipGameState();
 }
 
-class App extends StatelessWidget {
+class _ChampionChipGameState extends State<ChampionChipGame> {
+  int appState;
+
+  @override
+  void initState() {
+    appState = APPSTATE.SELECT_PLAYERS_STATE;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MainController();
+    Widget currentScreen;
+
+    switch (appState) {
+      case APPSTATE.SELECT_PLAYERS_STATE:
+        currentScreen = SelectPlayersView(() {
+          setState(() {
+            appState = APPSTATE.GAME_STATE;
+          });
+        });
+        break;
+      case APPSTATE.GAME_STATE:
+        currentScreen = GameView();
+        break;
+      case APPSTATE.SCOREBOARD_STATE:
+        currentScreen = ScoreboardView();
+        break;
+      default:
+    }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: InheritedPlayerList(currentScreen),
+    );
   }
 }

@@ -11,15 +11,10 @@ class _GameViewState extends State<GameView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CupertinoNavigationBar(
-        leading: CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () {},
-          child: Icon(CupertinoIcons.home),
-        ),
         middle: Text("Spieler 1 vs. Spieler 2"),
       ),
       body: Center(
-        child: Text("GAME HERE :)"),
+        child: Text("[GAME_VIEW]"),
       ),
     );
   }
