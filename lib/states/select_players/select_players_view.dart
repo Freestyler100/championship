@@ -60,7 +60,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
             itemCount: (players.length >= 2 ? players.length : 2),
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 50,
                 child: Center(
                   child: Align(
