@@ -5,9 +5,7 @@ class InheritedPlayerList extends InheritedWidget {
   final InheritedPlayerListService service = InheritedPlayerListService();
 
   InheritedPlayerList(Widget child, {List<Player> players}) : super(child: child) {
-    if (players != null) {
-      this.service.players = players;
-    }
+    if (players != null) this.service.players = players;
   }
 
   @override

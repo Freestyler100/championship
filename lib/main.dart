@@ -5,6 +5,8 @@ import 'package:champion_chip/states/scoreboard/scoreboard_view.dart';
 import 'package:champion_chip/states/select_players/select_players_view.dart';
 import 'package:flutter/material.dart';
 
+import 'components/inherited_gamemode.dart';
+
 void main() => runApp(ChampionChipGame());
 
 class ChampionChipGame extends StatefulWidget {
@@ -44,7 +46,9 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: InheritedPlayerList(currentScreen),
+      home: InheritedPlayerList(
+        InheritedGamemode(currentScreen),
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:champion_chip/components/inherited_player_list.dart';
+import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/scissors_stone_paper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,15 +9,20 @@ class GameView extends StatefulWidget {
 }
 
 class _GameViewState extends State<GameView> {
+  int gamemode = 0; //TODO: change this to implement more gamemodes
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CupertinoNavigationBar(
-        middle: Text("Spieler 1 vs. Spieler 2"),
-      ),
-      body: Center(
-        child: Text("[GAME_VIEW]"),
-      ),
-    );
+    switch (gamemode) {
+      case 0:
+        print("build ssp");
+        print(InheritedPlayerList.of(context).service.players);
+        return ScissorsStonePaperGamemode(
+          InheritedPlayerList.of(context).service.players[0],
+          InheritedPlayerList.of(context).service.players[1],
+        );
+        break;
+      default:
+    }
   }
 }

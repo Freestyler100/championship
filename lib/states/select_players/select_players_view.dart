@@ -3,7 +3,6 @@ import 'package:champion_chip/components/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class SelectPlayersView extends StatefulWidget {
   final Function starteGameFunc;
@@ -27,11 +26,12 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
   @override
   void didChangeDependencies() {
     players = InheritedPlayerList.of(context).service.players.toList();
-    InheritedPlayerList.of(context).service.players.add(Player(""));
 
     while (players.length < 2) {
       players.add(Player(""));
     }
+
+    print("start : " + players.toString());
     super.didChangeDependencies();
   }
 
@@ -47,7 +47,11 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
               CupertinoIcons.check_mark,
               size: 40,
             ),
-            onPressed: (readyToStart ? startGame : null),
+            onPressed: (readyToStart
+                ? () {
+                    startGame(context);
+                  }
+                : null),
           )),
       body: Column(
         children: <Widget>[
@@ -62,6 +66,9 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: TextField(
+                      onEditingComplete: () {
+                        print("submitted");
+                      },
                       inputFormatters: [
                         WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
                       ],
@@ -88,53 +95,37 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
     );
   }
 
-  void startGame() {
+  void startGame(BuildContext context) {
     //remove empty textfields and set global InheritedPlayerList to new players
     List<Player> tmpPlayers = [];
     players.forEach((p) {
       if (p.name != "") tmpPlayers.add(p);
     });
-    InheritedPlayerList.of(context).service.players = tmpPlayers;
-
-    print("new players: " + InheritedPlayerList.of(context).service.players.toString());
+    InheritedPlayerList.of(context).service.players = tmpPlayers.toList();
+    print("new " + InheritedPlayerList.of(context).service.players.toString());
 
     //start game
     widget.starteGameFunc();
   }
 
   void textFieldChangedEvent(String text, int index) {
-    print("TextField changed at ListView[" + index.toString() + "], text: " + text);
-
-    for (int i = 0; i < players.length; i++) {
-      print("playerList[$i] = " + players[i].name);
-    }
     //update local players list
     players[index] = Player(text);
 
     //add new player if all name-textfields are filled
     bool emptyFieldExists = false;
     players.forEach((p) {
-      print("p.name:" + p.name + " emptyFieldExists: " + (p.name == "" ? true : false).toString());
       if (p.name == "") emptyFieldExists = true;
     });
 
-    print("emptyFieldExists:" + emptyFieldExists.toString());
     if (!emptyFieldExists) {
       setState(() {
         players.add(Player(""));
-        print("new field added");
       });
     }
-    print("changed_end");
 
     checkIfReadyToStart();
   }
-
-  // void showPlayerLists(BuildContext context) {
-  //   print("showPlayerLists");
-  //   print("old: " + Provider.of<PlayerList>(context, listen: false)._players.toString());
-  //   print("tmp_new: " + widget._playersTmp._players.toString());
-  // }
 
   void checkIfReadyToStart() {
     int filledFields = 0;
