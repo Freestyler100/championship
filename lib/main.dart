@@ -12,6 +12,7 @@ void main() => runApp(ChampionChipGame());
 class ChampionChipGame extends StatefulWidget {
   @override
   _ChampionChipGameState createState() => _ChampionChipGameState();
+  final inheritedPlayerListService = InheritedPlayerListService(players: []);
 }
 
 class _ChampionChipGameState extends State<ChampionChipGame> {
@@ -32,6 +33,7 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
         currentScreen = SelectPlayersView(() {
           setState(() {
             appState = APPSTATE.GAME_STATE;
+            print('show game state');
           });
         });
         break;
@@ -47,8 +49,9 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: InheritedPlayerList(
-        InheritedGamemode(currentScreen),
-      ),
+        currentScreen,
+        widget.inheritedPlayerListService,
+      ), //TODO: add later: InheritedGamemode(),
     );
   }
 }

@@ -2,11 +2,17 @@ import 'package:champion_chip/components/player.dart';
 import 'package:flutter/material.dart';
 
 class InheritedPlayerList extends InheritedWidget {
-  final InheritedPlayerListService service = InheritedPlayerListService();
+  //static final InheritedPlayerListService _service = InheritedPlayerListService();
+  InheritedPlayerListService service;
 
-  InheritedPlayerList(Widget child, {List<Player> players}) : super(child: child) {
-    if (players != null) this.service.players = players;
-  }
+  //factory InheritedPlayerListService._internal(Widget child, {List<Player> players}) => InheritedPlayerListService(child, players);
+  InheritedPlayerList(Widget child, this.service) : super(child: child);
+
+  // InheritedPlayerListService._internal(Widget child, {List<Player> players}) {}
+
+  // InheritedPlayerList(Widget child, {List<Player> players}) : super(child: child) {
+  //   if (players != null) this._service.players = players;
+  // }
 
   @override
   bool updateShouldNotify(InheritedPlayerList oldWidget) {
@@ -19,7 +25,15 @@ class InheritedPlayerList extends InheritedWidget {
 class InheritedPlayerListService {
   List<Player> players;
 
-  InheritedPlayerListService({List<Player> players}) {
-    this.players = (players != null ? players : []);
+  static final InheritedPlayerListService _instance = InheritedPlayerListService._internal();
+  //factory InheritedPlayerListService() => _instance;
+
+  InheritedPlayerListService._internal();
+
+  factory InheritedPlayerListService({List<Player> players}) {
+    _instance.players = (players != null ? players : []);
+
+    print("InheritedPlayerListService constructor " + _instance.players.toString());
+    return _instance;
   }
 }

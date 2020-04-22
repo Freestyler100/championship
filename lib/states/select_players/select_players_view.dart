@@ -25,6 +25,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
 
   @override
   void didChangeDependencies() {
+    print('didChangePlayxers: ' + InheritedPlayerList.of(context).service.players.toList().toString());
     players = InheritedPlayerList.of(context).service.players.toList();
 
     while (players.length < 2) {
@@ -33,6 +34,11 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
 
     print("start : " + players.toString());
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -53,44 +59,63 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
                   }
                 : null),
           )),
-      body: Column(
-        children: <Widget>[
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: (players.length >= 2 ? players.length : 2),
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 50,
-                child: Center(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextField(
-                      onEditingComplete: () {
-                        print("submitted");
-                      },
-                      inputFormatters: [
-                        WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
-                      ],
-                      onChanged: (text) => textFieldChangedEvent(text, index),
-                      decoration: InputDecoration(
-                        hintText: "Spieler " + (index + 1).toString(),
-                      ),
-                      controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          text: players[index].name,
-                          selection: TextSelection.collapsed(
-                            offset: players[index].name.length,
-                          ),
-                        ),
+      body: ListView.builder(
+        shrinkWrap: true,
+        itemCount: players.length,
+        itemBuilder: (BuildContext context, int index) {
+          // final _textField = TextField(
+          //   focusNode: FocusNode(),
+          //   autofocus: (index == 0),
+          //   inputFormatters: [
+          //     WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+          //   ],
+          //   onChanged: (text) => textFieldChangedEvent(text, index),
+          //   decoration: InputDecoration(
+          //     hintText: "Spieler " + (index + 1).toString(),
+          //   ),
+          //   controller: TextEditingController.fromValue(
+          //     TextEditingValue(
+          //       text: players[index].name,
+          //       selection: TextSelection.collapsed(
+          //         offset: players[index].name.length,
+          //       ),
+          //     ),
+          //   ),
+          // );
+
+          // _textField.focusNode.addListener(() {
+          //   if (!_textField.focusNode.hasFocus && _textField.controller.value.text == '') {
+          //     _textField.focusNode.unfocus();
+          //   }
+          // });
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            height: 50,
+            child: Center(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  autofocus: (index == 0),
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+                  ],
+                  onChanged: (text) => textFieldChangedEvent(text, index),
+                  decoration: InputDecoration(
+                    hintText: "Spieler " + (index + 1).toString(),
+                  ),
+                  controller: TextEditingController.fromValue(
+                    TextEditingValue(
+                      text: players[index].name,
+                      selection: TextSelection.collapsed(
+                        offset: players[index].name.length,
                       ),
                     ),
                   ),
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -102,7 +127,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
       if (p.name != "") tmpPlayers.add(p);
     });
     InheritedPlayerList.of(context).service.players = tmpPlayers.toList();
-    print("new " + InheritedPlayerList.of(context).service.players.toString());
+    print("new " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());
 
     //start game
     widget.starteGameFunc();

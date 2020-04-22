@@ -6,7 +6,7 @@ class ScoreboardView extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text("[SCOREBOARD_VIEW]"),
-      ),
+      ), 
     );
   }
 }
