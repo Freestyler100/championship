@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:champion_chip/components/inherited_player_list.dart';
 import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/scissors_stone_paper.dart';
+import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/match.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +14,27 @@ class GameView extends StatefulWidget {
 class _GameViewState extends State<GameView> {
   int gamemode = 0; //TODO: change this to implement more gamemodes
   List<Player> players;
+  Widget battleScreen;
+  List<Match> matches;
+  int currentMatch;
 
   @override
   void didChangeDependencies() {
     players = InheritedPlayerList.of(context).service.players.toList();
     players = mixPlayerList(players);
 
+    matches = createMatches();
+    currentMatch = 0;
+
     super.didChangeDependencies();
+  }
+
+  List<Match> createMatches() {
+    List<Match> matches = List<Match>();
+    for (int i = 0; i < players.length; i += 2) {
+      matches.add(Match(players[i], (i + 1 <= players.length ? players[i + 1] : null), matchFinished));
+    }
+    return matches;
   }
 
   getWinner(Player player1, Player player2) {
@@ -30,19 +44,24 @@ class _GameViewState extends State<GameView> {
     return getWinner(player1, player2);
   }
 
+  matchFinished(Player player) {
+    print(player.name + ' hat gewonnen');
+  }
+
   @override
   Widget build(BuildContext context) {
-    switch (gamemode) {
-      case 0:
-        print("ssp " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());
+    return matches[currentMatch].currentScreen;
+    // switch (gamemode) {
+    //   case 0:
+    //     print("ssp " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());
 
-        return ScissorsStonePaperGamemode(
-          InheritedPlayerList.of(context).service.players[0],
-          InheritedPlayerList.of(context).service.players[1],
-        );
-        break;
-      default:
-    }
+    //     return ScissorsStonePaperGamemode(
+    //       InheritedPlayerList.of(context).service.players[0],
+    //       InheritedPlayerList.of(context).service.players[1],
+    //     );
+    //     break;
+    //   default:
+    // }
   }
 
   List<Player> mixPlayerList(List<Player> players) {

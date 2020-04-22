@@ -55,3 +55,23 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
     );
   }
 }
+
+class A {
+  String s;
+}
+
+class B extends A {
+  void doSmth() {
+    print(s);
+  }
+}
+
+class CMain {
+  void doSmth() {
+    A a = A();
+    B b = a;
+
+    // B b = B();
+    // A a = b;
+  }
+}
