@@ -1,4 +1,4 @@
-package com.example.champion_chip
+package com.example.champion_ship
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

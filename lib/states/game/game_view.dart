@@ -27,14 +27,20 @@ class _GameLogicState extends State<GameLogic> {
 
     matches = createMatches();
     currentMatch = 0;
-
+    for (int i = 0; i < matches.length; i++) {
+      if (matches[i].player2 == null) {
+        currentMatch++;
+        print('currentMatch+1');
+      }
+    }
     super.didChangeDependencies();
   }
 
   List<Match> createMatches() {
     List<Match> matches = List<Match>();
     for (int i = 0; i < players.length; i += 2) {
-      matches.add(Match(players[i], (i + 1 < players.length ? players[i + 1] : null), matchFinished));
+      matches.add(Match(players[i],
+          (i + 1 < players.length ? players[i + 1] : null), matchFinished));
     }
     return matches;
   }
@@ -43,16 +49,25 @@ class _GameLogicState extends State<GameLogic> {
     print('match finished');
     setState(() {
       print(player.name + ' hat gewonnen');
-      if (currentMatch < matches.length) {
+      if (currentMatch + 1 < matches.length) {
+        print('finished 1');
         winners.add(player);
         currentMatch++;
+        for (int i = 0; i < matches.length; i++) {
+          if (matches[i].player2 == null) currentMatch++;
+        }
       } else {
+        print('finished 2');
         if (winners.length > 1) {
           players = winners.toList();
           createMatches();
+          currentMatch = 0;
+          for (int i = 0; i < matches.length; i++) {
+            if (matches[i].player2 == null) currentMatch++;
+          }
           print("nächste runde");
         } else {
-          print('${winners[0].name} hat das Turnier gewonnen!');
+          print('${player.name} hat das Turnier gewonnen!');
           battleScreen = ResultScreen(player, null, newGame);
         }
       }
@@ -65,6 +80,7 @@ class _GameLogicState extends State<GameLogic> {
 
   @override
   Widget build(BuildContext context) {
+    print('build $currentMatch match: ${matches[currentMatch].player1.toString()} ${matches[currentMatch].player2.toString()}');
     return matches[currentMatch].currentScreen;
     // switch (gamemode) {
     //   case 0:
