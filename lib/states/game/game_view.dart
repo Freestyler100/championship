@@ -3,20 +3,22 @@ import 'dart:math';
 import 'package:champion_chip/components/inherited_player_list.dart';
 import 'package:champion_chip/components/player.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/match.dart';
+import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/result_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class GameView extends StatefulWidget {
+class GameLogic extends StatefulWidget {
   @override
-  _GameViewState createState() => _GameViewState();
+  _GameLogicState createState() => _GameLogicState();
 }
 
-class _GameViewState extends State<GameView> {
+class _GameLogicState extends State<GameLogic> {
   int gamemode = 0; //TODO: change this to implement more gamemodes
   List<Player> players;
   Widget battleScreen;
   List<Match> matches;
   int currentMatch;
+  List<Player> winners = List<Player>();
 
   @override
   void didChangeDependencies() {
@@ -32,20 +34,33 @@ class _GameViewState extends State<GameView> {
   List<Match> createMatches() {
     List<Match> matches = List<Match>();
     for (int i = 0; i < players.length; i += 2) {
-      matches.add(Match(players[i], (i + 1 <= players.length ? players[i + 1] : null), matchFinished));
+      matches.add(Match(players[i], (i + 1 < players.length ? players[i + 1] : null), matchFinished));
     }
     return matches;
   }
 
-  getWinner(Player player1, Player player2) {
-    if (player1 == null) return player2;
-    if (player2 == null) return player1;
-
-    return getWinner(player1, player2);
+  matchFinished(Player player) {
+    print('match finished');
+    setState(() {
+      print(player.name + ' hat gewonnen');
+      if (currentMatch < matches.length) {
+        winners.add(player);
+        currentMatch++;
+      } else {
+        if (winners.length > 1) {
+          players = winners.toList();
+          createMatches();
+          print("nächste runde");
+        } else {
+          print('${winners[0].name} hat das Turnier gewonnen!');
+          battleScreen = ResultScreen(player, null, newGame);
+        }
+      }
+    });
   }
 
-  matchFinished(Player player) {
-    print(player.name + ' hat gewonnen');
+  newGame() {
+    print('Neues Spiel starten...');
   }
 
   @override

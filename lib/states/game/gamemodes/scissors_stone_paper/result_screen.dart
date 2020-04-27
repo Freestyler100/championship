@@ -60,7 +60,7 @@ class ResultScreen extends StatelessWidget {
             Text("Sieg für ${calculateWinner().name}"),
             CupertinoButton(
               child: Text("Weiter"),
-              onPressed: () => continueCallback(),
+              onPressed: continueCallback,
             )
           ],
         )),

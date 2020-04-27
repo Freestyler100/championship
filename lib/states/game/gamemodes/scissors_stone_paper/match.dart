@@ -16,13 +16,13 @@ class Match {
 
   Match(Player _player1, Player _player2, this.matchFinishedCallback) {
     player1 = SspPlayer(_player1.name);
-    player2 = SspPlayer(_player2.name);
+    player2 = (player2 != null ? SspPlayer(_player2.name) : null);
     _currentScreen = PageView(children: <Widget>[Scaffold(body: Center(child: Text("Dieser Bildschirm sollte nicht angezeigt werden")))]);
     _currentScreenIndex = 0;
 
-    if (player2 == null)
-      matchFinishedCallback(this.player1);
-    else
+    if (player2 == null) {
+      //matchFinishedCallback(this.player1);
+    } else
       _currentScreen = PageView(
         children: <Widget>[
           HandoverScreen(player1, nextScreen),

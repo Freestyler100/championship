@@ -38,7 +38,7 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
         });
         break;
       case APPSTATE.GAME_STATE:
-        currentScreen = GameView();
+        currentScreen = GameLogic();
         break;
       case APPSTATE.SCOREBOARD_STATE:
         currentScreen = ScoreboardView();
