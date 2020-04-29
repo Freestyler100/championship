@@ -28,7 +28,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
     players = InheritedPlayerList.of(context).service.players.toList();
 
     print('[SelectPlayersView - didChangeDependencies] current players ' +
-        players.toList().map((p) => (p?.name ?? "null") + ", ").toList().toString());
+        players.map((p) => (p?.name ?? "null") + ", ").toList().toString());
 
     while (players.length < 2) {
       players.add(Player(""));
