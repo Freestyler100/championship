@@ -1,10 +1,11 @@
 import 'package:champion_chip/components/player.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class EndResultScreen extends StatelessWidget {
+class ScoreboardView extends StatelessWidget {
   final Player winner;
 
-  EndResultScreen(this.winner);
+  const ScoreboardView(this.winner, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class EndResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('[Siegerehrungsscreen]'),
-            Text('Spieler ${winner.name} hat das Turnier gewonnen!'),
+            Text("[SCOREBOARD_VIEW]"),
+            Text("${winner.name} hat das Turnier gewonnen"),
           ],
         ),
       ),

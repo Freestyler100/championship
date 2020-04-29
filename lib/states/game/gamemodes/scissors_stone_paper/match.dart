@@ -33,14 +33,14 @@ class Match {
       );
   }
 
-  continueCallback() {
-    print("continue callback ");
-    if (calculateWinner() == null) {
+  continueCallback(Player winner) {
+    print("[Match] continueCallbackBackToMatch");
+    if (winner == null) {
       //rematch
       _currentScreenIndex = 0;
       _currentScreen.controller.jumpToPage(0);
     } else {
-      matchFinishedCallback(calculateWinner());
+      matchFinishedCallback(winner);
     }
   }
 
@@ -51,9 +51,8 @@ class Match {
   }
 
   SspPlayer calculateWinner() {
-    print(1);
-    // print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
-    // print("Player2 - ${player2.name} - ${player2.id} - ${player2.gesture}");
+    print("[Match - calculateWinner] Player1 - ${player1?.name ?? "-"} - ${player1?.id ?? "-"} - ${player1?.gesture ?? "-"}");
+    print("[Match - calculateWinner] Player2 - ${player2?.name ?? "-"} - ${player2?.id ?? "-"} - ${player2?.gesture ?? "-"}");
     // print("Player1: " + player1.gesture.toString());
     // print("Player2: " + player2.gesture.toString());
 

@@ -33,7 +33,7 @@ class InheritedPlayerListService {
   factory InheritedPlayerListService({List<Player> players}) {
     _instance.players = (players != null ? players : []);
 
-    print("InheritedPlayerListService constructor " + _instance.players.toString());
+    print("[InheritedPlayerListService] new instance " + _instance.players.toString());
     return _instance;
   }
 }

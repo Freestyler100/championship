@@ -25,14 +25,18 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
 
   @override
   void didChangeDependencies() {
-    print('didChangePlayxers: ' + InheritedPlayerList.of(context).service.players.toList().toString());
     players = InheritedPlayerList.of(context).service.players.toList();
+
+    print('[SelectPlayersView - didChangeDependencies] current players ' +
+        players.toList().map((p) => (p?.name ?? "null") + ", ").toList().toString());
 
     while (players.length < 2) {
       players.add(Player(""));
     }
 
-    print("start : " + players.toString());
+    print('[SelectPlayersView - didChangeDependencies] adapted players ' +
+        players.map((p) => ((p?.name ?? "null") + ", ")).toList().toString());
+
     super.didChangeDependencies();
   }
 
@@ -127,7 +131,8 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
       if (p.name != "") tmpPlayers.add(p);
     });
     InheritedPlayerList.of(context).service.players = tmpPlayers.toList();
-    print("new " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());
+    print("[SelectPlayersView - startGame] start GameLogic with players: " +
+        InheritedPlayerList.of(context).service.players.map((p) => p.name + ", ").toList().toString());
 
     //start game
     widget.starteGameFunc();

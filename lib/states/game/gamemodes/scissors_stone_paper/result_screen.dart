@@ -1,17 +1,19 @@
+import 'package:champion_chip/components/player.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/gesture.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
-  SspPlayer player1;
-  SspPlayer player2;
-  Function continueCallbackFinish;
+  final SspPlayer player1;
+  final SspPlayer player2;
+  final Function(Player winner) continueCallbackFinish;
 
   ResultScreen(this.player1, this.player2, this.continueCallbackFinish);
 
   SspPlayer calculateWinner() {
-    print(0);
+    print("[ResultScreen - calculateWinner] Player1: ${player1?.name ?? "-"} ${player1?.id ?? "-"} ${player1?.gesture ?? "-"}");
+    print("[ResultScreen - calculateWinner] Player2: ${player2?.name ?? "-"} ${player2?.id ?? "-"} ${player2?.gesture ?? "-"}");
     // print("Result - calcWinner");
     // print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
     // print("Player2 - ${player2?.name ?? '-'} - ${player2?.id ?? "-"} - ${player2?.gesture ?? "-"}");
@@ -43,12 +45,13 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (calculateWinner() == null) {
+    SspPlayer winner = calculateWinner();
+    if (winner == null) {
       return Scaffold(
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Leider Unentschieden"), CupertinoButton(child: Text("Rematch"), onPressed: () => continueCallbackFinish())],
+          children: [Text("Leider Unentschieden"), CupertinoButton(child: Text("Rematch"), onPressed: () => continueCallbackFinish(null))],
         )),
       );
     } else {
@@ -57,11 +60,11 @@ class ResultScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Sieg für ${calculateWinner().name}"),
+              Text("Sieg für ${winner.name}"),
               CupertinoButton(
                 child: Text("Weiter"),
                 onPressed: () {
-                  continueCallbackFinish();
+                  continueCallbackFinish(Player(winner.name));
                 },
               )
             ],

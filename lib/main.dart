@@ -1,8 +1,9 @@
 import 'package:champion_chip/components/inherited_player_list.dart';
+import 'package:champion_chip/components/player.dart';
 import 'package:champion_chip/constants.dart';
 import 'package:champion_chip/states/game/game_logic.dart';
-import 'package:champion_chip/states/scoreboard/scoreboard_view.dart';
-import 'package:champion_chip/states/select_players/select_players_view.dart';
+import 'package:champion_chip/states/game/scoreboard_view.dart';
+import 'package:champion_chip/states/game/select_players_view.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(ChampionChipGame());
@@ -15,6 +16,7 @@ class ChampionChipGame extends StatefulWidget {
 
 class _ChampionChipGameState extends State<ChampionChipGame> {
   int appState;
+  Player winner;
 
   @override
   void initState() {
@@ -28,18 +30,25 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
 
     switch (appState) {
       case APPSTATE.SELECT_PLAYERS_STATE:
+        print('[Main - build] case: SELECT_PLAYERS_STATE');
         currentScreen = SelectPlayersView(() {
           setState(() {
             appState = APPSTATE.GAME_STATE;
-            print('show game state');
           });
         });
         break;
       case APPSTATE.GAME_STATE:
-        currentScreen = GameLogic();
+        print('[Main - build] case: GAME_STATE');
+        currentScreen = GameLogic((Player _winner) {
+          setState(() {
+            winner = _winner;
+            appState = APPSTATE.SCOREBOARD_STATE;
+          });
+        });
         break;
       case APPSTATE.SCOREBOARD_STATE:
-        currentScreen = ScoreboardView();
+        print('[Main - build] case: SCOREBOARD_STATE');
+        currentScreen = ScoreboardView(winner);
         break;
       default:
     }

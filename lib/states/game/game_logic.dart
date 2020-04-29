@@ -2,12 +2,17 @@ import 'dart:math';
 
 import 'package:champion_chip/components/inherited_player_list.dart';
 import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/end_result_screen.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/match.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GameLogic extends StatefulWidget {
+  final Function(Player winner) showScoreboardCallback;
+
+  GameLogic(this.showScoreboardCallback, {Key key}) : super(key: key) {
+    print("[GameLogic] create new instance");
+  }
+
   @override
   _GameLogicState createState() => _GameLogicState();
 }
@@ -40,32 +45,32 @@ class _GameLogicState extends State<GameLogic> {
   }
 
   matchFinished(Player player) {
-    print('match finished');
+    print('[GameLogic - matchFinished] match finished');
     setState(() {
-      print(player.name + ' hat gewonnen');
       if (currentMatch + 1 < matches.length) {
-        print('finished 1');
+        print('[GameLogic - matchFinished] more than one further matches aviable for this round');
+        print('[GameLogic - matchFinished] prepare for next MATCH');
         winners.add(player);
         currentMatch++;
         if (matches[currentMatch].player2 == null) {
-          print("currMatch +1");
+          print("[GameLogic - matchFinished] next Match only one Player, skip, currentMatch($currentMatch) ++ ");
           currentMatch++;
         }
       } else {
-        print('finished 2');
+        print('[GameLogic - matchFinished] one or no further matches aviable for this round');
         if (winners.length > 1) {
+          print('[GameLogic - matchFinished] prepare for next ROUND');
           players = winners.toList();
           createMatches();
           currentMatch = 0;
           if (matches[currentMatch].player2 == null) {
-            print("currMatch +1");
+            print("[GameLogic - matchFinished] next Match only one Player, skip, currentMatch($currentMatch) ++ ");
             currentMatch++;
           }
-          print("nächste runde");
         } else {
-          print('${player.name} hat das Turnier gewonnen!');
-          print('set result screen');
-          resultScreen = EndResultScreen(player);
+          print('[GameLogic - matchFinished] not enough players for further ROUND');
+          print('[GameLogic - matchFinished] ${player.name} has won the championShip!');
+          widget.showScoreboardCallback(player);
         }
       }
     });
@@ -77,15 +82,13 @@ class _GameLogicState extends State<GameLogic> {
 
   @override
   Widget build(BuildContext context) {
+    print("[GameLogic - build] match $currentMatch from matches.length: ${matches.length}");
     print(
-        'build $currentMatch match: ${matches[currentMatch].player1.name.toString()} ${matches[currentMatch].player1.gesture.toString()} ${matches[currentMatch].player2.name.toString()} ${matches[currentMatch].player2.gesture.toString()}');
-    if (resultScreen == null) {
-      print("show game screen");
-      return matches[currentMatch].currentScreen;
-    } else {
-      print('show result screen');
-      return resultScreen;
-    }
+        "[GameLogic - build] Player1: ${matches[currentMatch].player1?.name ?? "-"} ${matches[currentMatch].player1?.id ?? "-"} ${matches[currentMatch].player1?.gesture ?? "NoGesture"}");
+    print(
+        "[GameLogic - build] Player2: ${matches[currentMatch].player2?.name ?? "-"} ${matches[currentMatch].player2?.id ?? "-"} ${matches[currentMatch].player2?.gesture ?? "NoGesture"}");
+
+    return matches[currentMatch].currentScreen;
     // switch (gamemode) {
     //   case 0:
     //     print("ssp " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());
