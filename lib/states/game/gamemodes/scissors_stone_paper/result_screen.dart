@@ -48,29 +48,69 @@ class ResultScreen extends StatelessWidget {
     SspPlayer winner = calculateWinner();
     if (winner == null) {
       return Scaffold(
-        body: Center(
+          body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.blue, Colors.white])),
+        child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Leider Unentschieden"), CupertinoButton(child: Text("Rematch"), onPressed: () => continueCallbackFinish(null))],
+          children: [
+            Image.asset('assets/images/draw.png', width: 150),
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                "Leider Unentschieden",
+                style: TextStyle(fontSize: 25),
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.all(50),
+                child: Container(
+                    decoration: BoxDecoration(border: Border.all(color: Colors.orange, width: 3)),
+                    child: Padding(
+                        padding: EdgeInsets.all(1),
+                        child: CupertinoButton(
+                            child: Text("Rematch", style: TextStyle(fontSize: 20, color: Colors.blue)),
+                            onPressed: () => continueCallbackFinish(null)))))
+          ],
         )),
-      );
+      ));
     } else {
       return Scaffold(
-        body: Center(
+          body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.blue, Colors.white])),
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Sieg für ${winner.name}"),
-              CupertinoButton(
-                child: Text("Weiter"),
-                onPressed: () {
-                  continueCallbackFinish(Player(winner.name));
-                },
-              )
+              Image.asset('assets/images/wreath.png', width: 150),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  "Sieg für ${calculateWinner().name}",
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(50),
+                  child: Container(
+                      decoration: BoxDecoration(border: Border.all(color: Colors.orange, width: 3)),
+                      child: Padding(
+                          padding: EdgeInsets.all(1),
+                          child: CupertinoButton(
+                            child: Text(
+                              "Weiter",
+                              style: TextStyle(fontSize: 20, color: Colors.blue),
+                            ),
+                            onPressed: () {
+                              continueCallbackFinish(Player(winner.name));
+                            },
+                          ))))
             ],
           ),
         ),
-      );
+      ));
     }
   }
 }
