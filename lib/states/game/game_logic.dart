@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:champion_chip/components/inherited_player_list.dart';
 import 'package:champion_chip/components/player.dart';
+import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/end_result_screen.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/match.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/result_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +15,10 @@ class GameLogic extends StatefulWidget {
 class _GameLogicState extends State<GameLogic> {
   int gamemode = 0; //TODO: change this to implement more gamemodes
   List<Player> players;
-  Widget battleScreen;
   List<Match> matches;
   int currentMatch;
   List<Player> winners = List<Player>();
+  Widget resultScreen;
 
   @override
   void didChangeDependencies() {
@@ -27,20 +27,14 @@ class _GameLogicState extends State<GameLogic> {
 
     matches = createMatches();
     currentMatch = 0;
-    for (int i = 0; i < matches.length; i++) {
-      if (matches[i].player2 == null) {
-        currentMatch++;
-        print('currentMatch+1');
-      }
-    }
+
     super.didChangeDependencies();
   }
 
   List<Match> createMatches() {
     List<Match> matches = List<Match>();
     for (int i = 0; i < players.length; i += 2) {
-      matches.add(Match(players[i],
-          (i + 1 < players.length ? players[i + 1] : null), matchFinished));
+      matches.add(Match(players[i], (i + 1 < players.length ? players[i + 1] : null), matchFinished));
     }
     return matches;
   }
@@ -53,8 +47,9 @@ class _GameLogicState extends State<GameLogic> {
         print('finished 1');
         winners.add(player);
         currentMatch++;
-        for (int i = 0; i < matches.length; i++) {
-          if (matches[i].player2 == null) currentMatch++;
+        if (matches[currentMatch].player2 == null) {
+          print("currMatch +1");
+          currentMatch++;
         }
       } else {
         print('finished 2');
@@ -62,26 +57,35 @@ class _GameLogicState extends State<GameLogic> {
           players = winners.toList();
           createMatches();
           currentMatch = 0;
-          for (int i = 0; i < matches.length; i++) {
-            if (matches[i].player2 == null) currentMatch++;
+          if (matches[currentMatch].player2 == null) {
+            print("currMatch +1");
+            currentMatch++;
           }
           print("nächste runde");
         } else {
           print('${player.name} hat das Turnier gewonnen!');
-          battleScreen = ResultScreen(player, null, newGame);
+          print('set result screen');
+          resultScreen = EndResultScreen(player);
         }
       }
     });
   }
 
-  newGame() {
+  void newGame() {
     print('Neues Spiel starten...');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build $currentMatch match: ${matches[currentMatch].player1.toString()} ${matches[currentMatch].player2.toString()}');
-    return matches[currentMatch].currentScreen;
+    print(
+        'build $currentMatch match: ${matches[currentMatch].player1.name.toString()} ${matches[currentMatch].player1.gesture.toString()} ${matches[currentMatch].player2.name.toString()} ${matches[currentMatch].player2.gesture.toString()}');
+    if (resultScreen == null) {
+      print("show game screen");
+      return matches[currentMatch].currentScreen;
+    } else {
+      print('show result screen');
+      return resultScreen;
+    }
     // switch (gamemode) {
     //   case 0:
     //     print("ssp " + InheritedPlayerList.of(context).service.players.map((a) => ("'${a.name}'")).toList().toString());

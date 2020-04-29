@@ -1,11 +1,9 @@
 import 'package:champion_chip/components/inherited_player_list.dart';
 import 'package:champion_chip/constants.dart';
-import 'package:champion_chip/states/game/game_view.dart';
+import 'package:champion_chip/states/game/game_logic.dart';
 import 'package:champion_chip/states/scoreboard/scoreboard_view.dart';
 import 'package:champion_chip/states/select_players/select_players_view.dart';
 import 'package:flutter/material.dart';
-
-import 'components/inherited_gamemode.dart';
 
 void main() => runApp(ChampionChipGame());
 

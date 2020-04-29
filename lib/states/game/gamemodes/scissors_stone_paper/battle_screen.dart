@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 class BattleScreen extends StatelessWidget {
   final SspPlayer player;
   final Function nextCallback;
-  final Function(SspPlayer, int) setGestureCallback;
 
-  BattleScreen(this.player, this.nextCallback, this.setGestureCallback);
+  BattleScreen(this.player, this.nextCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +25,8 @@ class BattleScreen extends StatelessWidget {
               Container(
                 child: OutlineButton(
                   onPressed: () {
-                    print(0);
                     player.gesture = Gesture.SCISSOR;
-                    print(1);
-                    setGestureCallback(player, Gesture.SCISSOR);
-                    print(2);
                     nextCallback();
-                    print(3);
                   },
                   borderSide: BorderSide(width: 3, color: Colors.black),
                   highlightedBorderColor: Colors.black,
@@ -43,7 +37,6 @@ class BattleScreen extends StatelessWidget {
                 child: OutlineButton(
                   onPressed: () {
                     player.gesture = Gesture.STONE;
-                    setGestureCallback(player, Gesture.STONE);
                     nextCallback();
                   },
                   borderSide: BorderSide(width: 3, color: Colors.black),
@@ -55,7 +48,6 @@ class BattleScreen extends StatelessWidget {
                 child: OutlineButton(
                   onPressed: () {
                     player.gesture = Gesture.PAPER;
-                    setGestureCallback(player, Gesture.PAPER);
                     nextCallback();
                   },
                   borderSide: BorderSide(width: 3, color: Colors.black),

@@ -1,6 +1,5 @@
 import 'package:champion_chip/components/player.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/battle_screen.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/draw_screen.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/gesture.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/handover_screen.dart';
 import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
@@ -26,29 +25,16 @@ class Match {
       _currentScreen = PageView(
         children: <Widget>[
           HandoverScreen(player1, nextScreen),
-          BattleScreen(player1, nextScreen, setGesturePick),
+          BattleScreen(player1, nextScreen),
           HandoverScreen(player2, nextScreen),
-          BattleScreen(player2, nextScreen, setGesturePick),
+          BattleScreen(player2, nextScreen),
           ResultScreen(player1, player2, continueCallback),
         ],
       );
   }
 
-  setGesturePick(SspPlayer player, int gesture) {
-    print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
-    print("Player2 - ${player2.name} - ${player2.id} - ${player2.gesture}");
-    print("PlayerId: ${player.id}");
-
-    // if (player.id == player1.id)
-    //   player1.gesture = gesture;
-    // else
-    //   player2.gesture = gesture;
-
-    print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
-    print("Player2 - ${player2.name} - ${player2.id} - ${player2.gesture}");
-  }
-
   continueCallback() {
+    print("continue callback ");
     if (calculateWinner() == null) {
       //rematch
       _currentScreenIndex = 0;
@@ -65,10 +51,11 @@ class Match {
   }
 
   SspPlayer calculateWinner() {
-    print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
-    print("Player2 - ${player2.name} - ${player2.id} - ${player2.gesture}");
-    print("Player1: " + player1.gesture.toString());
-    print("Player2: " + player2.gesture.toString());
+    print(1);
+    // print("Player1 - ${player1.name} - ${player1.id} - ${player1.gesture}");
+    // print("Player2 - ${player2.name} - ${player2.id} - ${player2.gesture}");
+    // print("Player1: " + player1.gesture.toString());
+    // print("Player2: " + player2.gesture.toString());
 
     if (player2 == null) return player1;
 
