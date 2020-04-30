@@ -1,4 +1,4 @@
-import 'package:champion_chip/components/player.dart';
+import 'package:championship/components/player.dart';
 import 'package:flutter/material.dart';
 
 class InheritedPlayerList extends InheritedWidget {

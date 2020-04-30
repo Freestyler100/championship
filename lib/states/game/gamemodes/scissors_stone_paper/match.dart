@@ -1,9 +1,9 @@
-import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/battle_screen.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/gesture.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/handover_screen.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/result_screen.dart';
+import 'package:championship/components/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/battle_screen.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/gesture.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/handover_screen.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/result_screen.dart';
 import 'package:flutter/material.dart';
 
 class Match {
@@ -21,8 +21,11 @@ class Match {
 
     if (player2 == null) {
       //matchFinishedCallback(this.player1);
-    } else
+    } else {
+      GlobalKey key = GlobalKey();
       _currentScreen = PageView(
+        key: key,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           HandoverScreen(player1, nextScreen),
           BattleScreen(player1, nextScreen),
@@ -31,6 +34,7 @@ class Match {
           ResultScreen(player1, player2, continueCallback),
         ],
       );
+    }
   }
 
   continueCallback(Player winner) {

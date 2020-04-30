@@ -1,13 +1,14 @@
 import 'dart:math';
 
-import 'package:champion_chip/components/inherited_player_list.dart';
-import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/match.dart';
+import 'package:championship/components/inherited_player_list.dart';
+import 'package:championship/components/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/match.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/round_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GameLogic extends StatefulWidget {
-  final Function(Player winner) showScoreboardCallback;
+  final Function(List<RoundResult> roundResults) showScoreboardCallback;
 
   GameLogic(this.showScoreboardCallback, {Key key}) : super(key: key) {
     print("[GameLogic] create new instance");
@@ -24,6 +25,8 @@ class _GameLogicState extends State<GameLogic> {
   int currentMatch;
   List<Player> winners = List<Player>();
   Widget resultScreen;
+  List<RoundResult> roundResults = List<RoundResult>();
+  int layer;
 
   @override
   void didChangeDependencies() {
@@ -32,6 +35,8 @@ class _GameLogicState extends State<GameLogic> {
 
     matches = createMatches();
     currentMatch = 0;
+
+    layer = 0;
 
     super.didChangeDependencies();
   }
@@ -45,32 +50,46 @@ class _GameLogicState extends State<GameLogic> {
   }
 
   matchFinished(Player player) {
-    print('[GameLogic - matchFinished] match finished');
+    roundResults.add(RoundResult(Player(matches[currentMatch].player1.name), Player(matches[currentMatch].player2.name), player, layer));
+    print('[GameLogic - matchFinished] match finished with player: ${player.name}');
     setState(() {
       if (currentMatch + 1 < matches.length) {
-        print('[GameLogic - matchFinished] more than one further matches aviable for this round');
-        print('[GameLogic - matchFinished] prepare for next MATCH');
+        // print('[GameLogic - matchFinished] more than one further matches aviable for this round');
+        // print('[GameLogic - matchFinished] prepare for next MATCH');
         winners.add(player);
         currentMatch++;
         if (matches[currentMatch].player2 == null) {
-          print("[GameLogic - matchFinished] next Match only one Player, skip, currentMatch($currentMatch) ++ ");
-          currentMatch++;
+          // print("[GameLogic - matchFinished] next Match only one Player, skip, currentMatch($currentMatch) ++ ");
+          winners.add(matches[currentMatch].player1);
+          roundResults.add(RoundResult(matches[currentMatch].player1, null, matches[currentMatch].player1, layer));
+          players = winners.toList();
+          players = mixPlayerList(players);
+          winners = List<Player>();
+          matches = createMatches();
+          layer++;
+          currentMatch = 0;
         }
       } else {
-        print('[GameLogic - matchFinished] one or no further matches aviable for this round');
+        winners.add(player);
         if (winners.length > 1) {
-          print('[GameLogic - matchFinished] prepare for next ROUND');
+          // print('[GameLogic - matchFinished] one further MATCH is aviable for this ROUND');
+          // print('[GameLogic - matchFinished] prepare for next ROUND');
           players = winners.toList();
-          createMatches();
+          players = mixPlayerList(players);
+          winners = List<Player>();
+          matches = createMatches();
+          layer++;
           currentMatch = 0;
           if (matches[currentMatch].player2 == null) {
-            print("[GameLogic - matchFinished] next Match only one Player, skip, currentMatch($currentMatch) ++ ");
+            // print("[GameLogic - matchFinished] next MATCH only one Player, skip, currentMatch($currentMatch) ++ ");
+            roundResults.add(RoundResult(matches[currentMatch].player1, null, player, layer));
             currentMatch++;
           }
         } else {
-          print('[GameLogic - matchFinished] not enough players for further ROUND');
-          print('[GameLogic - matchFinished] ${player.name} has won the championShip!');
-          widget.showScoreboardCallback(player);
+          // print('[GameLogic - matchFinished] no further matches aviable for this ROUND');
+          // print('[GameLogic - matchFinished] not enough players for further ROUND');
+          // print('[GameLogic - matchFinished] ${player.name} has won the championship!');
+          widget.showScoreboardCallback(roundResults);
         }
       }
     });

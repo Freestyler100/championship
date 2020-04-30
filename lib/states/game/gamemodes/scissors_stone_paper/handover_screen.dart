@@ -1,5 +1,5 @@
-import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/components/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +11,7 @@ class HandoverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("[HandoverScreen - build]");
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

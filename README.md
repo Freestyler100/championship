@@ -1,2 +1,2 @@
-# champion_chip
- csbme projekt championchip game
+# championship
+ csbme projekt championship game

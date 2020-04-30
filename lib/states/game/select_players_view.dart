@@ -1,5 +1,5 @@
-import 'package:champion_chip/components/inherited_player_list.dart';
-import 'package:champion_chip/components/player.dart';
+import 'package:championship/components/inherited_player_list.dart';
+import 'package:championship/components/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,15 +27,13 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
   void didChangeDependencies() {
     players = InheritedPlayerList.of(context).service.players.toList();
 
-    print('[SelectPlayersView - didChangeDependencies] current players ' +
-        players.map((p) => (p?.name ?? "null") + ", ").toList().toString());
+    print('[SelectPlayersView - didChangeDependencies] current players ' + players.map((p) => (p?.name ?? "null")).toList().toString());
 
     while (players.length < 2) {
       players.add(Player(""));
     }
 
-    print('[SelectPlayersView - didChangeDependencies] adapted players ' +
-        players.map((p) => ((p?.name ?? "null") + ", ")).toList().toString());
+    print('[SelectPlayersView - didChangeDependencies] adapted players ' + players.map((p) => ((p?.name ?? "null"))).toList().toString());
 
     super.didChangeDependencies();
   }
@@ -131,8 +129,9 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
       if (p.name != "") tmpPlayers.add(p);
     });
     InheritedPlayerList.of(context).service.players = tmpPlayers.toList();
+
     print("[SelectPlayersView - startGame] start GameLogic with players: " +
-        InheritedPlayerList.of(context).service.players.map((p) => p.name + ", ").toList().toString());
+        InheritedPlayerList.of(context).service.players.map((p) => p.name).toList().toString());
 
     //start game
     widget.starteGameFunc();

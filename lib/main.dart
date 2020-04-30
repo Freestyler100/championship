@@ -1,22 +1,22 @@
-import 'package:champion_chip/components/inherited_player_list.dart';
-import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/constants.dart';
-import 'package:champion_chip/states/game/game_logic.dart';
-import 'package:champion_chip/states/game/scoreboard_view.dart';
-import 'package:champion_chip/states/game/select_players_view.dart';
+import 'package:championship/components/inherited_player_list.dart';
+import 'package:championship/constants.dart';
+import 'package:championship/states/game/game_logic.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/round_result.dart';
+import 'package:championship/states/game/scoreboard_view.dart';
+import 'package:championship/states/game/select_players_view.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(ChampionChipGame());
+void main() => runApp(ChampionshipGame());
 
-class ChampionChipGame extends StatefulWidget {
+class ChampionshipGame extends StatefulWidget {
   @override
-  _ChampionChipGameState createState() => _ChampionChipGameState();
+  _ChampionshipGameState createState() => _ChampionshipGameState();
   final inheritedPlayerListService = InheritedPlayerListService(players: []);
 }
 
-class _ChampionChipGameState extends State<ChampionChipGame> {
+class _ChampionshipGameState extends State<ChampionshipGame> {
   int appState;
-  Player winner;
+  List<RoundResult> roundResults;
 
   @override
   void initState() {
@@ -39,16 +39,20 @@ class _ChampionChipGameState extends State<ChampionChipGame> {
         break;
       case APPSTATE.GAME_STATE:
         print('[Main - build] case: GAME_STATE');
-        currentScreen = GameLogic((Player _winner) {
+        currentScreen = GameLogic((List<RoundResult> _results) {
           setState(() {
-            winner = _winner;
+            roundResults = _results;
             appState = APPSTATE.SCOREBOARD_STATE;
           });
         });
         break;
       case APPSTATE.SCOREBOARD_STATE:
         print('[Main - build] case: SCOREBOARD_STATE');
-        currentScreen = ScoreboardView(winner);
+        currentScreen = ScoreboardView(roundResults, (int _appState) {
+          setState(() {
+            appState = _appState;
+          });
+        });
         break;
       default:
     }

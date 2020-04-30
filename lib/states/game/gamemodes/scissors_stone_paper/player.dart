@@ -1,4 +1,4 @@
-import 'package:champion_chip/components/player.dart';
+import 'package:championship/components/player.dart';
 
 class SspPlayer extends Player {
   static int _nextId = 0;

@@ -1,5 +1,5 @@
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/gesture.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/gesture.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
 import 'package:flutter/material.dart';
 
 class BattleScreen extends StatelessWidget {

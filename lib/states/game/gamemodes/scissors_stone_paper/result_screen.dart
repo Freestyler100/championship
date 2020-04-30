@@ -1,6 +1,6 @@
-import 'package:champion_chip/components/player.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/gesture.dart';
-import 'package:champion_chip/states/game/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/components/player.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/gesture.dart';
+import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +88,7 @@ class ResultScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: Text(
-                  "Sieg für ${calculateWinner().name}",
+                  "Sieg für ${winner.name}",
                   style: TextStyle(fontSize: 25),
                 ),
               ),
