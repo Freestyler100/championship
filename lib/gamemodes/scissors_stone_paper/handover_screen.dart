@@ -1,5 +1,4 @@
-import 'package:championship/components/player.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

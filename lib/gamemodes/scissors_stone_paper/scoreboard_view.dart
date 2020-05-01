@@ -1,14 +1,13 @@
-import 'package:championship/components/player.dart';
 import 'package:championship/constants.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/round_result.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/round_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ScoreboardView extends StatelessWidget {
+class SSPScoreboardView extends StatelessWidget {
   final List<RoundResult> roundResults;
   final Function(int state) continueCallback;
 
-  const ScoreboardView(this.roundResults, this.continueCallback, {Key key}) : super(key: key);
+  const SSPScoreboardView(this.roundResults, this.continueCallback, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +41,48 @@ class ScoreboardView extends StatelessWidget {
                     children: roundResults.where((element) => element.layer == index).map((e) {
                       if (e.player2 != null)
                         return Container(
-                            alignment: Alignment.center,
-                            width: 100,
-                            child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text: e.winner.name,
-                                  style: TextStyle(color: Colors.green),
-                                  children: [
-                                    TextSpan(text: " vs. ", style: TextStyle(color: Colors.white)),
-                                    TextSpan(
-                                      text: e.loser.name,
-                                      style: TextStyle(color: Colors.red),
-                                    )
-                                  ],
-                                )));
+                          alignment: Alignment.center,
+                          width: 150,
+                          child: Column(
+                            children: [
+                              // Row(
+                              //   mainAxisSize: MainAxisSize.max,
+                              //   children: [
+                              //     gestureToImage(e.winner.gesture),
+                              //     Spacer(flex: 1),
+                              //     Text(" - "),
+                              //     Spacer(flex: 1),
+                              //     gestureToImage(e.loser.gesture)
+                              //   ],
+                              // ),
+                              Row(
+                                children: [
+                                  gestureToImage(e.winner.gesture),
+                                  Expanded(
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        text: e.winner.name,
+                                        style: TextStyle(color: Colors.green),
+                                        children: [
+                                          TextSpan(
+                                            text: ' vs. ',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          TextSpan(
+                                            text: e.loser.name,
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  gestureToImage(e.loser.gesture),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
                       else
                         return Container(
                           alignment: Alignment.center,
@@ -98,5 +124,20 @@ class ScoreboardView extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  Image gestureToImage(int gesture) {
+    switch (gesture) {
+      case 0:
+        return Image.asset('assets/images/scissors.png', width: 20);
+        break;
+      case 1:
+        return Image.asset('assets/images/rock.png', width: 20);
+        break;
+      case 2:
+        return Image.asset('assets/images/paper.png', width: 20);
+        break;
+    }
+    return null;
   }
 }

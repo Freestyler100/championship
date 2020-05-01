@@ -1,9 +1,9 @@
-import 'package:championship/components/player.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/player.dart';
 
 class RoundResult {
-  Player player1;
-  Player player2;
-  Player winner;
+  SspPlayer player1;
+  SspPlayer player2;
+  SspPlayer winner;
   int layer;
 
   get loser => (winner.name == player1.name ? player2 : player1);

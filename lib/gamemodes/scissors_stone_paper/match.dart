@@ -1,9 +1,9 @@
 import 'package:championship/components/player.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/battle_screen.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/gesture.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/handover_screen.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/player.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/result_screen.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/battle_screen.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/gesture.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/handover_screen.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/result_screen.dart';
 import 'package:flutter/material.dart';
 
 class Match {

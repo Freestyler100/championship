@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:championship/components/inherited_player_list.dart';
 import 'package:championship/components/player.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/match.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/round_result.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/match.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/player.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/round_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,12 @@ class _GameLogicState extends State<GameLogic> {
   }
 
   matchFinished(Player player) {
-    roundResults.add(RoundResult(Player(matches[currentMatch].player1.name), Player(matches[currentMatch].player2.name), player, layer));
+    roundResults.add(RoundResult(
+      matches[currentMatch].player1,
+      matches[currentMatch].player2,
+      (matches[currentMatch].player1.name == player.name ? matches[currentMatch].player1 : matches[currentMatch].player2),
+      layer,
+    ));
     print('[GameLogic - matchFinished] match finished with player: ${player.name}');
     setState(() {
       if (currentMatch + 1 < matches.length) {

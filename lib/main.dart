@@ -1,9 +1,9 @@
 import 'package:championship/components/inherited_player_list.dart';
 import 'package:championship/constants.dart';
-import 'package:championship/states/game/game_logic.dart';
-import 'package:championship/states/game/gamemodes/scissors_stone_paper/round_result.dart';
-import 'package:championship/states/game/scoreboard_view.dart';
-import 'package:championship/states/game/select_players_view.dart';
+import 'package:championship/game_logic.dart';
+import 'package:championship/gamemodes/scissors_stone_paper/round_result.dart';
+import 'package:championship/scoreboard_view.dart';
+import 'package:championship/select_players_view.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(ChampionshipGame());

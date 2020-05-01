@@ -1,8 +1,16 @@
-import 'package:flutter/material.dart';
-
 class Player {
+  static int _nextId = 0;
+  int _id;
   String name;
-  bool isComputer;
 
-  Player(this.name, {this.isComputer = false});
+  Player(this.name, {int id}) {
+    if (id != null)
+      _id = id;
+    else {
+      _id = _nextId;
+      _nextId++;
+    }
+  }
+
+  get id => _id;
 }
