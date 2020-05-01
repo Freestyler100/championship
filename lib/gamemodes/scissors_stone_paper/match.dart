@@ -51,7 +51,7 @@ class Match {
   nextScreen() {
     _currentScreenIndex++;
 
-    _currentScreen.controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.bounceIn);
+    _currentScreen.controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   SspPlayer calculateWinner() {
