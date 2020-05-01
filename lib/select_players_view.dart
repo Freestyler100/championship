@@ -48,6 +48,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CupertinoNavigationBar(
+          backgroundColor: Colors.lightBlueAccent,
           leading: Icon(CupertinoIcons.person),
           middle: Text("Spieler hinzufügen"),
           trailing: CupertinoButton(
@@ -55,6 +56,7 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
             child: Icon(
               CupertinoIcons.check_mark,
               size: 40,
+              color: (readyToStart ? Colors.white : Colors.grey),
             ),
             onPressed: (readyToStart
                 ? () {
@@ -62,78 +64,82 @@ class _SelectPlayersViewState extends State<SelectPlayersView> {
                   }
                 : null),
           )),
-      body: Column(
-        children: [
-          if (showMessageNoDoublePlayerNames)
-            Container(
-              decoration: BoxDecoration(color: Colors.red),
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: Text(
-                  'Du kannst keinen Namen doppelt vergeben',
-                  style: TextStyle(color: Colors.white),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.blue, Colors.white])),
+        child: Column(
+          children: [
+            if (showMessageNoDoublePlayerNames)
+              Container(
+                decoration: BoxDecoration(color: Colors.red),
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Text(
+                    'Du kannst keinen Namen doppelt vergeben',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: players.length,
-            itemBuilder: (BuildContext context, int index) {
-              // final _textField = TextField(
-              //   focusNode: FocusNode(),
-              //   autofocus: (index == 0),
-              //   inputFormatters: [
-              //     WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
-              //   ],
-              //   onChanged: (text) => textFieldChangedEvent(text, index),
-              //   decoration: InputDecoration(
-              //     hintText: "Spieler " + (index + 1).toString(),
-              //   ),
-              //   controller: TextEditingController.fromValue(
-              //     TextEditingValue(
-              //       text: players[index].name,
-              //       selection: TextSelection.collapsed(
-              //         offset: players[index].name.length,
-              //       ),
-              //     ),
-              //   ),
-              // );
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: players.length,
+              itemBuilder: (BuildContext context, int index) {
+                // final _textField = TextField(
+                //   focusNode: FocusNode(),
+                //   autofocus: (index == 0),
+                //   inputFormatters: [
+                //     WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+                //   ],
+                //   onChanged: (text) => textFieldChangedEvent(text, index),
+                //   decoration: InputDecoration(
+                //     hintText: "Spieler " + (index + 1).toString(),
+                //   ),
+                //   controller: TextEditingController.fromValue(
+                //     TextEditingValue(
+                //       text: players[index].name,
+                //       selection: TextSelection.collapsed(
+                //         offset: players[index].name.length,
+                //       ),
+                //     ),
+                //   ),
+                // );
 
-              // _textField.focusNode.addListener(() {
-              //   if (!_textField.focusNode.hasFocus && _textField.controller.value.text == '') {
-              //     _textField.focusNode.unfocus();
-              //   }
-              // });
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 50,
-                child: Center(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextField(
-                      autofocus: (index == 0),
-                      inputFormatters: [
-                        WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
-                      ],
-                      onChanged: (text) => textFieldChangedEvent(text, index),
-                      decoration: InputDecoration(
-                        hintText: "Spieler " + (index + 1).toString(),
-                      ),
-                      controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          text: players[index].name,
-                          selection: TextSelection.collapsed(
-                            offset: players[index].name.length,
+                // _textField.focusNode.addListener(() {
+                //   if (!_textField.focusNode.hasFocus && _textField.controller.value.text == '') {
+                //     _textField.focusNode.unfocus();
+                //   }
+                // });
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 50,
+                  child: Center(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextField(
+                        autofocus: (index == 0),
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),
+                        ],
+                        onChanged: (text) => textFieldChangedEvent(text, index),
+                        decoration: InputDecoration(
+                          hintText: "Spieler " + (index + 1).toString(),
+                        ),
+                        controller: TextEditingController.fromValue(
+                          TextEditingValue(
+                            text: players[index].name,
+                            selection: TextSelection.collapsed(
+                              offset: players[index].name.length,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
