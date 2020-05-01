@@ -80,37 +80,94 @@ class ResultScreen extends StatelessWidget {
           body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.blue, Colors.white])),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/wreath.png', width: 150),
-              Padding(
-                padding: EdgeInsets.all(15),
-                child: Text(
-                  "Sieg für ${winner.name}",
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(
+              flex: 1,
+            ),
+            Row(
+              children: [
+                Spacer(
+                  flex: 1,
+                ),
+                gestureToImage(player1.gesture),
+                Text(
+                  player1.name,
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                Text(
+                  "vs.",
                   style: TextStyle(fontSize: 25),
                 ),
+                Spacer(
+                  flex: 1,
+                ),
+                Text(
+                  player2.name,
+                  style: TextStyle(fontSize: 30, color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                gestureToImage(player2.gesture),
+                Spacer(
+                  flex: 1,
+                ),
+              ],
+            ),
+            Spacer(
+              flex: 1,
+            ),
+            Image.asset('assets/images/wreath.png', width: 150),
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                "Sieg für ${winner.name}",
+                style: TextStyle(fontSize: 25),
               ),
-              Container(
-                  padding: EdgeInsets.all(50),
-                  child: Container(
-                      decoration: BoxDecoration(border: Border.all(color: Colors.orange, width: 3)),
-                      child: Padding(
-                          padding: EdgeInsets.all(1),
-                          child: CupertinoButton(
-                            child: Text(
-                              "Weiter",
-                              style: TextStyle(fontSize: 20, color: Colors.blue),
-                            ),
-                            onPressed: () {
-                              continueCallbackFinish(Player(winner.name));
-                            },
-                          ))))
-            ],
-          ),
+            ),
+            Container(
+              padding: EdgeInsets.all(50),
+              child: Container(
+                decoration: BoxDecoration(border: Border.all(color: Colors.orange, width: 3)),
+                child: Padding(
+                  padding: EdgeInsets.all(1),
+                  child: CupertinoButton(
+                    child: Text(
+                      "Weiter",
+                      style: TextStyle(fontSize: 20, color: Colors.blue),
+                    ),
+                    onPressed: () {
+                      continueCallbackFinish(Player(winner.name));
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Spacer(
+              flex: 1,
+            ),
+          ],
         ),
       ));
     }
+  }
+
+  Image gestureToImage(int gesture) {
+    switch (gesture) {
+      case 0:
+        return Image.asset('assets/images/scissors.png', width: 50);
+        break;
+      case 1:
+        return Image.asset('assets/images/rock.png', width: 50);
+        break;
+      case 2:
+        return Image.asset('assets/images/paper.png', width: 50);
+        break;
+    }
+    return null;
   }
 }
